@@ -16,9 +16,10 @@ class Settings(BaseSettings):
     teamcenter_api_url: AnyHttpUrl = Field(description="Base URL of the Teamcenter REST backend.")
     teamcenter_http_timeout: float = Field(default=60.0, gt=0, description="Backend request timeout in seconds.")
 
-    # MCP transport
-    mcp_transport: Literal["streamable-http", "stdio"] = "streamable-http"
-    mcp_host: str = "127.0.0.1"
+    # MCP transport. "http" is FastMCP's Streamable HTTP transport.
+    mcp_transport: Literal["http", "stdio"] = "http"
+    # 0.0.0.0 accepts connections from other machines; use 127.0.0.1 for local-only access.
+    mcp_host: str = "0.0.0.0"
     mcp_port: int = 8000
     mcp_path: str = "/mcp"
 

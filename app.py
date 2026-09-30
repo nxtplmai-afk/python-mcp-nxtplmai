@@ -76,7 +76,7 @@ def main() -> None:
         mcp.run(transport="stdio")
     else:
         mcp.run(
-            transport="streamable-http",
+            transport="http",
             host=settings.mcp_host,
             port=settings.mcp_port,
             path=settings.mcp_path,
