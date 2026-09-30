@@ -14,6 +14,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
 
 from fastmcp import FastMCP
 from fastmcp.server.lifespan import lifespan
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
 from teamcenter_mcp import __version__
 from teamcenter_mcp.client import TeamcenterClient
@@ -48,6 +50,12 @@ def create_server() -> FastMCP:
         lifespan=teamcenter_lifespan,
     )
     register_all_tools(mcp)
+
+    @mcp.custom_route("/health", methods=["GET"])
+    async def health(request: Request) -> JSONResponse:
+        """Liveness check for the HTTP transport (does not call the Teamcenter backend)."""
+        return JSONResponse({"status": "ok", "server": "teamcenter-mcp", "version": __version__})
+
     return mcp
 
 
